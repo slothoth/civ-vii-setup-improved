@@ -1,0 +1,3 @@
+INSERT INTO SlthLeaderCivPriorities (CivilizationType, LeaderType, Priority) VALUES
+('CIVILIZATION_NEPAL', 'LEADER_ASHOKA', 3),
+('CIVILIZATION_NEPAL', 'LEADER_PACHACUTI', 1);

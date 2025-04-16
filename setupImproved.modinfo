@@ -1,0 +1,233 @@
+<?xml version="1.1" encoding="utf-8"?>
+<Mod id="slothoth-setup-improved" version="0.1"
+	xmlns="ModInfo">
+	<Properties>
+		<Name>Slothoth's Setup Improved</Name>
+		<Description>Makes improvements to the setup screen and age transition screen to control things like Mementos for AI, Leader and Civ pools.</Description>
+		<Authors>Slothoth</Authors>
+		<Package>Mod</Package>
+		<AffectsSavedGames>0</AffectsSavedGames>
+	<!-- Added automatically by CivMods: Do not edit -->
+	<CivModsCategory>Mod Components</CivModsCategory>
+	<CivModsInternalVersionId>595ina4yruerc50</CivModsInternalVersionId>
+	<CivModsURL>https://forums.civfanatics.com/resources/setup-improved-mementos-for-ai-players.32166/</CivModsURL>
+	<CivModsVersion>0.1</CivModsVersion>
+	<CivModsVersionDate>2025-04-04T00:43:06.000Z</CivModsVersionDate>
+	</Properties>
+	<Dependencies>
+		<Mod id="base-standard" title="LOC_MODULE_BASE_STANDARD_NAME" />
+	</Dependencies>
+	<References>
+		<Mod id="core" title="LOC_MODULE_CORE_NAME"/>
+	</References>
+	<ActionCriteria>
+		<Criteria id="always" any="true">
+			<AlwaysMet/>
+		</Criteria>
+		<Criteria id="ada">
+			<ModInUse>ada-lovelace</ModInUse>
+		</Criteria>
+		<Criteria id="ashoka-himiko">
+			<ModInUse>ashoka-himiko-alt</ModInUse>
+		</Criteria>
+		<Criteria id="bolivar">
+			<ModInUse>bolivar</ModInUse>
+		</Criteria>
+		<Criteria id="bulgaria">
+			<ModInUse>bulgaria</ModInUse>
+		</Criteria>
+		<Criteria id="carthage">
+			<ModInUse>carthage</ModInUse>
+		</Criteria>
+		<Criteria id="great-britain">
+			<ModInUse>great-britain</ModInUse>
+		</Criteria>
+		<Criteria id="napoleon">
+			<ModInUse>napoleon</ModInUse>
+		</Criteria>
+		<Criteria id="napoleon-alt">
+			<ModInUse>napoleon-alt</ModInUse>
+		</Criteria>
+		<Criteria id="nepal">
+			<ModInUse>nepal</ModInUse>
+		</Criteria>
+		<Criteria id="nepal-ashoka">
+			<ModInUse>nepal</ModInUse>
+			<ModInUse>ashoka-himiko-alt</ModInUse>
+		</Criteria>
+		<Criteria id="tecumseh-shawnee">
+			<ModInUse>shawnee-tecumseh</ModInUse>
+		</Criteria>
+		<Criteria id="xerxes-friedrich">
+			<ModInUse>friedrich-xerxes-alt</ModInUse>
+		</Criteria>
+	</ActionCriteria>
+	<ActionGroups>
+		<ActionGroup id="slothoth-setup-improved-defines" scope="shell" criteria="always">
+			<Properties>
+				<LoadOrder>50</LoadOrder>
+			</Properties>
+			<Actions>
+				<UpdateDatabase>
+					<Item>config/memento-defines.sql</Item>
+					<Item>config/leader-priorities-defines.sql</Item>
+				</UpdateDatabase>
+			</Actions>
+		</ActionGroup>
+		<ActionGroup id="slothoth-setup-improved" scope="shell" criteria="always">
+			<Properties>
+				<LoadOrder>500</LoadOrder>
+			</Properties>
+			<Actions>
+				<ImportFiles>
+					<Item>ui/shell/create-panels/game-setup-panel.js</Item>
+					<Item>ui/shell/create-panels/advanced-options-panel.js</Item>
+					<Item>ui/shell/create-panels/age-transition-civ-select.js</Item>
+				</ImportFiles>
+				<ReplaceUIScript>
+					<Item>ui/shell/create-panels/game-setup-panel.js</Item>
+					<Item>ui/shell/create-panels/advanced-options-panel.js</Item>
+				</ReplaceUIScript>
+				<UIScripts>
+					<Item>ui/shell/create-panels/ai-memento-editor.js</Item>
+					<Item>ui/shell/create-panels/leader-select-model-slothoth.js</Item>
+					<!--Item>ui/shell/shell-components/icon-hidable-dropdown.js</Item-->
+				</UIScripts>
+				<UpdateDatabase>
+					<Item>config/leaderPriorities.sql</Item>
+					<Item>config/memento-support.sql</Item>
+				</UpdateDatabase>
+			</Actions>
+		</ActionGroup>
+		<ActionGroup id="slothoth-setup-improved-ada" scope="shell" criteria="always">
+			<Properties>
+				<LoadOrder>500</LoadOrder>
+			</Properties>
+			<Actions>
+				<UpdateDatabase>
+					<Item>config/mementos/ada.sql</Item>
+					<Item>config/priorities/ada.sql</Item>
+				</UpdateDatabase>
+			</Actions>
+		</ActionGroup>
+		<ActionGroup id="slothoth-setup-improved-ashoka" scope="shell" criteria="always">
+			<Properties>
+				<LoadOrder>500</LoadOrder>
+			</Properties>
+			<Actions>
+				<UpdateDatabase>
+					<Item>config/mementos/ashoka-himiko.sql</Item>
+					<Item>config/priorities/ashoka-himiko.sql</Item>
+				</UpdateDatabase>
+			</Actions>
+		</ActionGroup>
+		<ActionGroup id="slothoth-setup-improved-bolivar" scope="shell" criteria="always">
+			<Properties>
+				<LoadOrder>500</LoadOrder>
+			</Properties>
+			<Actions>
+				<UpdateDatabase>
+					<Item>config/mementos/bolivar.sql</Item>
+					<Item>config/priorities/bolivar.sql</Item>
+				</UpdateDatabase>
+			</Actions>
+		</ActionGroup>
+		<ActionGroup id="slothoth-setup-improved-bulgaria" scope="shell" criteria="always">
+			<Properties>
+				<LoadOrder>500</LoadOrder>
+			</Properties>
+			<Actions>
+				<UpdateDatabase>
+					<Item>config/mementos/bulgaria.sql</Item>
+					<Item>config/priorities/bulgaria.sql</Item>
+				</UpdateDatabase>
+			</Actions>
+		</ActionGroup>
+		<ActionGroup id="slothoth-setup-improved-carthage" scope="shell" criteria="always">
+			<Properties>
+				<LoadOrder>500</LoadOrder>
+			</Properties>
+			<Actions>
+				<UpdateDatabase>
+					<Item>config/mementos/carthage.sql</Item>
+					<Item>config/priorities/carthage.sql</Item>
+				</UpdateDatabase>
+			</Actions>
+		</ActionGroup>
+		<ActionGroup id="slothoth-setup-improved-great-britain" scope="shell" criteria="always">
+			<Properties>
+				<LoadOrder>500</LoadOrder>
+			</Properties>
+			<Actions>
+				<UpdateDatabase>
+					<Item>config/mementos/great-britain.sql</Item>
+					<Item>config/priorities/great-britain.sql</Item>
+				</UpdateDatabase>
+			</Actions>
+		</ActionGroup>
+		<ActionGroup id="slothoth-setup-improved-napoleon-fxs" scope="shell" criteria="always">
+			<Properties>
+				<LoadOrder>500</LoadOrder>
+			</Properties>
+			<Actions>
+				<UpdateDatabase>
+					<Item>config/mementos/napoleon-fxs.sql</Item>
+				</UpdateDatabase>
+			</Actions>
+		</ActionGroup>
+		<ActionGroup id="slothoth-setup-improved-napoleon-revolutionary" scope="shell" criteria="always">
+			<Properties>
+				<LoadOrder>500</LoadOrder>
+			</Properties>
+			<Actions>
+				<UpdateDatabase>
+					<Item>config/mementos/napoleon-revolutionary.sql</Item>
+				</UpdateDatabase>
+			</Actions>
+		</ActionGroup>
+		<ActionGroup id="slothoth-setup-improved-nepal" scope="shell" criteria="always">
+			<Properties>
+				<LoadOrder>500</LoadOrder>
+			</Properties>
+			<Actions>
+				<UpdateDatabase>
+					<Item>config/mementos/nepal.sql</Item>
+					<Item>config/priorities/nepal.sql</Item>
+					<Item>config/priorities/ashoka-nepal.sql</Item>
+				</UpdateDatabase>
+			</Actions>
+		</ActionGroup>
+		<ActionGroup id="slothoth-setup-improved-nepal" scope="shell" criteria="always">
+			<Properties>
+				<LoadOrder>500</LoadOrder>
+			</Properties>
+			<Actions>
+				<UpdateDatabase>
+					<Item>config/priorities/ashoka-nepal.sql</Item>
+				</UpdateDatabase>
+			</Actions>
+		</ActionGroup>
+		<ActionGroup id="slothoth-setup-improved-tecumseh-shawnee" scope="shell" criteria="always">
+			<Properties>
+				<LoadOrder>500</LoadOrder>
+			</Properties>
+			<Actions>
+				<UpdateDatabase>
+					<Item>config/mementos/tecumseh-shawnee.sql</Item>
+					<Item>config/priorities/tecumseh-shawnee.sql</Item>
+				</UpdateDatabase>
+			</Actions>
+		</ActionGroup>
+		<ActionGroup id="slothoth-setup-improved-xerxes-friedrich" scope="shell" criteria="always">
+			<Properties>
+				<LoadOrder>500</LoadOrder>
+			</Properties>
+			<Actions>
+				<UpdateDatabase>
+					<Item>config/mementos/xerxes-friedrich.sql</Item>
+					<Item>config/priorities/xerxes-friedrich.sql</Item>
+				</UpdateDatabase>
+			</Actions>
+		</ActionGroup>
+	</ActionGroups>
+</Mod>
