@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Database>
+	<EnglishText>
+		<Row Tag="LOC_ADVANCED_OPTIONS_AI_MEMENTO">
+			<Text>AI Mementos</Text>
+		</Row>
+		<Row Tag="LOC_AI_MEMENTO_DESC">
+			<Text>AI Players are assigned Mementos fitting their leader or civ.</Text>
+		</Row>
+	</EnglishText>
+</Database>

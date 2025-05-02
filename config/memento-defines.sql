@@ -27,7 +27,7 @@ CREATE TABLE MementoSetSynergy (
 CREATE TABLE SpecificMementoCombo (
     ComboID TEXT PRIMARY KEY,
     LeaderType  TEXT not null,
-    CivilizationType  TEXT not null,
+    CivilizationType  TEXT,
     MementoTypePrimary TEXT not null,
     MementoTypeSecondary TEXT not null
     -- FOREIGN KEY (MementoTypePrimary) REFERENCES Mementos(Type),

@@ -7,12 +7,6 @@
 		<Authors>Slothoth</Authors>
 		<Package>Mod</Package>
 		<AffectsSavedGames>0</AffectsSavedGames>
-	<!-- Added automatically by CivMods: Do not edit -->
-	<CivModsCategory>Mod Components</CivModsCategory>
-	<CivModsInternalVersionId>595ina4yruerc50</CivModsInternalVersionId>
-	<CivModsURL>https://forums.civfanatics.com/resources/setup-improved-mementos-for-ai-players.32166/</CivModsURL>
-	<CivModsVersion>0.1</CivModsVersion>
-	<CivModsVersionDate>2025-04-04T00:43:06.000Z</CivModsVersionDate>
 	</Properties>
 	<Dependencies>
 		<Mod id="base-standard" title="LOC_MODULE_BASE_STANDARD_NAME" />
@@ -51,15 +45,31 @@
 		<Criteria id="nepal">
 			<ModInUse>nepal</ModInUse>
 		</Criteria>
-		<Criteria id="nepal-ashoka">
-			<ModInUse>nepal</ModInUse>
-			<ModInUse>ashoka-himiko-alt</ModInUse>
-		</Criteria>
 		<Criteria id="tecumseh-shawnee">
 			<ModInUse>shawnee-tecumseh</ModInUse>
 		</Criteria>
 		<Criteria id="xerxes-friedrich">
 			<ModInUse>friedrich-xerxes-alt</ModInUse>
+		</Criteria>
+		<Criteria id="nepal-ashoka">
+			<ModInUse>nepal</ModInUse>
+			<ModInUse>ashoka-himiko-alt</ModInUse>
+		</Criteria>
+		<Criteria id="ashoka-xerxes">
+			<ModInUse>ashoka-himiko-alt</ModInUse>
+			<ModInUse>friedrich-xerxes-alt</ModInUse>
+		</Criteria>
+		<Criteria id="bolivar-napoleon-rev">
+			<ModInUse>bolivar</ModInUse>
+			<ModInUse>napoleon-alt</ModInUse>
+		</Criteria>
+		<Criteria id="bolivar-xerxes">
+			<ModInUse>bolivar</ModInUse>
+			<ModInUse>friedrich-xerxes-alt</ModInUse>
+		</Criteria>
+		<Criteria id="ashoka-tecumseh">
+			<ModInUse>ashoka-himiko-alt</ModInUse>
+			<ModInUse>shawnee-tecumseh</ModInUse>
 		</Criteria>
 	</ActionCriteria>
 	<ActionGroups>
@@ -71,6 +81,7 @@
 				<UpdateDatabase>
 					<Item>config/memento-defines.sql</Item>
 					<Item>config/leader-priorities-defines.sql</Item>
+					<Item>config/parameters/parameter_defines.sql</Item>
 				</UpdateDatabase>
 			</Actions>
 		</ActionGroup>
@@ -96,7 +107,11 @@
 				<UpdateDatabase>
 					<Item>config/leaderPriorities.sql</Item>
 					<Item>config/memento-support.sql</Item>
+					<Item>config/parameters/parameters.sql</Item>
 				</UpdateDatabase>
+				<UpdateText>
+					<Item>text/loc.xml</Item>
+				</UpdateText>
 			</Actions>
 		</ActionGroup>
 		<ActionGroup id="slothoth-setup-improved-ada" scope="shell" criteria="always">
@@ -193,17 +208,6 @@
 				<UpdateDatabase>
 					<Item>config/mementos/nepal.sql</Item>
 					<Item>config/priorities/nepal.sql</Item>
-					<Item>config/priorities/ashoka-nepal.sql</Item>
-				</UpdateDatabase>
-			</Actions>
-		</ActionGroup>
-		<ActionGroup id="slothoth-setup-improved-nepal" scope="shell" criteria="always">
-			<Properties>
-				<LoadOrder>500</LoadOrder>
-			</Properties>
-			<Actions>
-				<UpdateDatabase>
-					<Item>config/priorities/ashoka-nepal.sql</Item>
 				</UpdateDatabase>
 			</Actions>
 		</ActionGroup>
@@ -226,6 +230,66 @@
 				<UpdateDatabase>
 					<Item>config/mementos/xerxes-friedrich.sql</Item>
 					<Item>config/priorities/xerxes-friedrich.sql</Item>
+				</UpdateDatabase>
+			</Actions>
+		</ActionGroup>
+		<ActionGroup id="slothoth-setup-improved-nepal" scope="shell" criteria="always">
+			<Properties>
+				<LoadOrder>500</LoadOrder>
+			</Properties>
+			<Actions>
+				<UpdateDatabase>
+					<Item>config/priorities/ashoka-nepal.sql</Item>
+				</UpdateDatabase>
+			</Actions>
+		</ActionGroup>
+		<ActionGroup id="slothoth-setup-improved-ashoka-xerxes" scope="shell" criteria="always">
+			<Properties>
+				<LoadOrder>500</LoadOrder>
+			</Properties>
+			<Actions>
+				<UpdateDatabase>
+					<Item>config/mementos/ashoka-and-xerxes.sql</Item>
+				</UpdateDatabase>
+			</Actions>
+		</ActionGroup>
+		<ActionGroup id="slothoth-setup-improved-ashoka-tecumseh" scope="shell" criteria="always">
+			<Properties>
+				<LoadOrder>500</LoadOrder>
+			</Properties>
+			<Actions>
+				<UpdateDatabase>
+					<Item>config/mementos/ashoka-tecumseh.sql</Item>
+				</UpdateDatabase>
+			</Actions>
+		</ActionGroup>
+		<ActionGroup id="slothoth-setup-improved-bolivar-ashoka" scope="shell" criteria="always">
+			<Properties>
+				<LoadOrder>500</LoadOrder>
+			</Properties>
+			<Actions>
+				<UpdateDatabase>
+					<Item>config/mementos/bolivar-and-ashoka-alt.sql</Item>
+				</UpdateDatabase>
+			</Actions>
+		</ActionGroup>
+		<ActionGroup id="slothoth-setup-improved-bolivar-napoleon-rev" scope="shell" criteria="always">
+			<Properties>
+				<LoadOrder>500</LoadOrder>
+			</Properties>
+			<Actions>
+				<UpdateDatabase>
+					<Item>config/mementos/bolivar-and-napoleon-rev.sql</Item>
+				</UpdateDatabase>
+			</Actions>
+		</ActionGroup>
+		<ActionGroup id="slothoth-setup-improved-bolivar-xerxes-alt" scope="shell" criteria="always">
+			<Properties>
+				<LoadOrder>500</LoadOrder>
+			</Properties>
+			<Actions>
+				<UpdateDatabase>
+					<Item>config/mementos/bolivar-and-xerxes.sql</Item>
 				</UpdateDatabase>
 			</Actions>
 		</ActionGroup>

@@ -19,10 +19,10 @@ import { Audio } from '/core/ui/audio-base/audio-support.js';
 import {getPlayerMementoData} from 'fs://game/slothoth-setup-improved/ui/shell/create-panels/leader-select-model-slothoth.js';
 import { MustGetElement } from '/core/ui/utilities/utilities-dom.js';
 import { PlayerRandomiser } from "fs://game/slothoth-setup-improved/ui/shell/civ-leader-randomiser.js";
+const PARAMETERS = Database.query('config', 'select * from AdvancedParameters')  ?? [];
+const STANDARD_PARAMETERS = PARAMETERS.filter(parameter => !parameter.Advanced).map(parameter => parameter.ParameterID);
+const ADVANCED_PARAMETERS = PARAMETERS.filter(parameter => parameter.Advanced).map(parameter => parameter.ParameterID);
 // modded end
-
-const STANDARD_PARAMETERS = ["Age", "Difficulty", "GameSpeeds", "Map", "MapSize"];
-const ADVANCED_PARAMETERS = ["AgeLength", "DisasterIntensity", "CrisesEnabled", "GameRandomSeed", "MapRandomSeed", "StartPosition"];
 /**
  * AdvancedOptionsPanel displays advanced game options and player setup.
  *

@@ -1,0 +1,2 @@
+INSERT INTO SpecificMementoCombo(ComboID, LeaderType, CivilizationType, MementoTypePrimary, MementoTypeSecondary) VALUES
+('AshokaConqCelebratoryWar', 'LEADER_ASHOKA_ALT', NULL, 'MEMENTO_ASHOKA_CONQUEROR_CHANDA_MAHASENA', 'MEMENTO_BOLIVAR_LETTER_TO_JAMAICA');

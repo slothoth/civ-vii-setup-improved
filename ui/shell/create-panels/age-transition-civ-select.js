@@ -464,7 +464,7 @@ class AgeTransitionCivSelect extends Panel {
         UI.sendAudioEvent("age-end-civ-select" + civName);
         Sound.onNextCivSelect(civName);
         GameSetup.setPlayerParameterValue(GameContext.localPlayerID, 'PlayerCivilization', this.selectedCivInfo.civID);
-        console.error('doing age transition randomisation')
+        // console.error('doing age transition randomisation')
         const randomiser = new PlayerRandomiser()
         randomiser.doResolve(true, true)
         engine.call('startGame');

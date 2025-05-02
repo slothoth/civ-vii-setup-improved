@@ -1,0 +1,2 @@
+INSERT INTO SpecificMementoCombo(ComboID, LeaderType, CivilizationType, MementoTypePrimary, MementoTypeSecondary) VALUES
+('BolivarJustifiedWars', 'LEADER_BOLIVAR', NULL, 'MEMENTO_TRUNG_ANKUS', 'MEMENTO_FRIEDRICH_BAROQUE_ANTI_MACHIAVEL');
