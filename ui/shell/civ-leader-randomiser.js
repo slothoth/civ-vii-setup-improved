@@ -1,16 +1,22 @@
 import { GetCivilizationData } from '/core/ui/shell/create-panels/age-civ-select-model.js';
 import { getLeaderData } from '/core/ui/shell/create-panels/leader-select-model.js';
 
+const SPECIFIC_WEIGHTING = 3       // weights how favoured specific combos are over generics.
+                                            // specific combos are multiplied so that they roughtly equal the
+                                            // dynamic ones. Then SPECIFIC WEIGHTING multiplies the specific ones
 export class PlayerRandomiser {
     constructor(root) {
+        const ageType = GameSetup.findGameParameter('Age')?.value.value?.toString() ?? "";
+        this.ageType = ageType
         this.currentCivs = new Map()
         this.LeaderMementoSynergies = Database.query('config', 'select * from LeaderMementoSynergy') ?? [];
+        this.LeaderMementoSynergies = this.LeaderMementoSynergies.filter(synergy => synergy.AgeType === this.ageType)
         this.CivMementoSynergies = Database.query('config', 'select * from CivMementoSynergy') ?? [];
         this.MementoSetSynergies = Database.query('config', 'select * from MementoSetSynergy') ?? [];
         this.SpecificMementoCombos = Database.query('config', 'select * from SpecificMementoCombo') ?? [];
         this.allMementos = Database.query('config', 'select Type from Mementos').map(m => m.Type);
         this.CivLeaderPriorities = Database.query('config', 'select * from SlthLeaderCivPriorities') ?? [];
-        const ageType = GameSetup.findGameParameter('Age')?.value.value?.toString() ?? "";
+
 
         const ageDomainMap = new Map([["AGE_ANTIQUITY", 'AntiquityAgeCivilizations'],
             ["AGE_EXPLORATION", 'ExplorationAgeCivilizations'],
@@ -27,7 +33,7 @@ export class PlayerRandomiser {
         this.allPossibleCivs = []
         this.usedCivs = []
 
-        this.doLogging = false
+        this.doLogging = true
         this.slthLog('redefining civ resolve')
     }
 
@@ -259,9 +265,9 @@ export class PlayerRandomiser {
         this.slthLog(`memento assignment started for ${leaderType}, ${civilizationType}`)
         this.slthLog(`All Mementos Combos length: ${this.SpecificMementoCombos.length}`)
 
-        const matchingLeaderType = this.SpecificMementoCombos.filter(combo => combo.LeaderType === leaderType && combo.CivilizationType === null);
-        const matchingCivilizationType = this.SpecificMementoCombos.filter(combo => combo.CivilizationType === civilizationType && combo.LeaderType === null);
-        const matchingBothType = this.SpecificMementoCombos.filter(combo => combo.LeaderType === leaderType && combo.CivilizationType === civilizationType);
+        const matchingLeaderType = this.SpecificMementoCombos.filter(combo => combo.LeaderType === leaderType && combo.CivilizationType === null && (combo.AgeType === this.ageType || !(combo.AgeType)));
+        const matchingCivilizationType = this.SpecificMementoCombos.filter(combo => combo.CivilizationType === civilizationType && combo.LeaderType === null && (combo.AgeType === this.ageType || !(combo.AgeType)));
+        const matchingBothType = this.SpecificMementoCombos.filter(combo => combo.LeaderType === leaderType && combo.CivilizationType === civilizationType && (combo.AgeType === this.ageType || !(combo.AgeType)));
         const uniqueMap = new Map();
         [...matchingLeaderType, ...matchingCivilizationType, ...matchingBothType].forEach(combo => {
             const mementoEntry = {
@@ -286,6 +292,7 @@ export class PlayerRandomiser {
             .filter(synergy => synergy.CivilizationType === civilizationType)
             .map(synergy => synergy.MementoType);
 
+        this.slthLog(JSON.stringify(specificCombos))
         this.slthLog(`leader memento length: ${leaderMementos.length}`)
         this.slthLog(`civ memento length: ${civMementos.length}`)
         // combine leader and civ mementos (unique values only)
@@ -307,15 +314,6 @@ export class PlayerRandomiser {
       }
       else {
           candidatePrimaryMementos = [...new Set([...leaderMementos, ...civMementos])];
-      }
-
-      if (candidatePrimaryMementos.length === 0) {
-        this.slthLog(`no mementos found for primary :(`)
-        return {
-                  primary: 'NONE',
-                  secondary: 'NONE',
-                  selectionType: 'Predefined'
-                }
       }
 
       for (const primaryMemento of candidatePrimaryMementos) {
@@ -349,12 +347,12 @@ export class PlayerRandomiser {
         }
       }
       this.slthLog(`dynamic combo length: ${validCombinations.length}`)
-      // we want equal amounts of dynamic vs specific ( or maybe change it with settings too). So multiply specific combos
+        // we want equal amounts of dynamic vs specific ( or maybe change it with settings too). So multiply specific combos
         // so they are roughly the same amount as non specific ones.
         const dynamicToSpecificRatio = Math.floor(validCombinations.length / specificCombos.length)
         let weightedSpecificCombos = specificCombos
         if (dynamicToSpecificRatio > 1) {
-            weightedSpecificCombos = specificCombos.flatMap(item => Array(dynamicToSpecificRatio).fill(item))
+            weightedSpecificCombos = specificCombos.flatMap(item => Array(dynamicToSpecificRatio * SPECIFIC_WEIGHTING).fill(item))
         }
 
       validCombinations.push(...weightedSpecificCombos);
@@ -367,7 +365,8 @@ export class PlayerRandomiser {
         GameSetup.setPlayerParameterValue(playerId, 'PlayerMementoMajorSlot', chosenCombo['primary']);
         GameSetup.setPlayerParameterValue(playerId, 'PlayerMementoMinorSlot1', chosenCombo['secondary']);
       }
-      return null;
+      this.slthLog(`no mementos found for primary :(`)
+      return {primary: 'NONE', secondary: 'NONE', selectionType: 'Predefined'}
     }
 
     resolveLeader(playerId, personaLeaders) {

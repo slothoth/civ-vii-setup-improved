@@ -108,6 +108,7 @@
 					<Item>config/leaderPriorities.sql</Item>
 					<Item>config/memento-support.sql</Item>
 					<Item>config/parameters/parameters.sql</Item>
+					<Item>config/mementos/version_3_combos.sql</Item>
 				</UpdateDatabase>
 				<UpdateText>
 					<Item>text/loc.xml</Item>
