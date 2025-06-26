@@ -91,15 +91,11 @@
 			</Properties>
 			<Actions>
 				<ImportFiles>
-					<Item>ui/shell/create-panels/game-setup-panel.js</Item>
-					<Item>ui/shell/create-panels/advanced-options-panel.js</Item>
 					<Item>ui/shell/create-panels/age-transition-civ-select.js</Item>
 				</ImportFiles>
-				<ReplaceUIScript>
-					<Item>ui/shell/create-panels/game-setup-panel.js</Item>
-					<Item>ui/shell/create-panels/advanced-options-panel.js</Item>
-				</ReplaceUIScript>
 				<UIScripts>
+					<Item>decorators/game-setup-decorator.js</Item>
+					<Item>decorators/advanced-options-panel-decorator.js</Item>
 					<Item>ui/shell/create-panels/ai-memento-editor.js</Item>
 					<Item>ui/shell/create-panels/leader-select-model-slothoth.js</Item>
 					<!--Item>ui/shell/shell-components/icon-hidable-dropdown.js</Item-->

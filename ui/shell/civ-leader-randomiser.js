@@ -32,17 +32,26 @@ export class PlayerRandomiser {
         this.setToRandoms = []
         this.allPossibleCivs = []
         this.usedCivs = []
+        this.doingMementos = GameSetup.findGameParameter('AiMementos')?.value.value ?? false;
 
-        this.doLogging = true
+        this.doLogging = false
         this.slthLog('redefining civ resolve')
     }
 
     doResolve(doLeaders, isAgeTransition){
-        const doingMementos = GameSetup.findGameParameter('AiMementos')?.value.value ?? false;
-        if (doingMementos) {
-            this.slthLog(`starting resolve as Mementos is: ${doingMementos}`)
+        const mementoCheck = GameSetup.findGameParameter('AiMementos')?.value.value ?? false;
+        const isMementoParamChanged = mementoCheck !== this.doingMementos
+        this.slthLog(`memento param on?: ${mementoCheck}`)
+        this.slthLog(`MementoParam diff: ${isMementoParamChanged}`)
+        if (mementoCheck) {
+            this.doingMementos = mementoCheck
             this.slthLog(JSON.stringify(this.usedCivs, null, 2))
             this.slthLog(JSON.stringify(this.usedLeaders, null, 2))
+            if (isMementoParamChanged){
+                this.slthLog(`MementoParam diff: ${isMementoParamChanged}`)
+                this.usedCivs = []
+                this.usedLeaders = []
+            }
             if (isAgeTransition){
                 this.getLockedCivData(0, true)
             }
@@ -56,7 +65,7 @@ export class PlayerRandomiser {
             for (let playerId = 0; playerId < Configuration.getMap().maxMajorPlayers; ++playerId) {
                 const playerConfig = Configuration.getPlayer(playerId);
                 // && playerId !== GameContext.localPlayerID
-                if (playerConfig.slotStatus !== SlotStatus.SS_CLOSED ) {
+                if (playerConfig.slotStatus !== SlotStatus.SS_CLOSED) {
                     if (playerId === GameContext.localPlayerID && isAgeTransition){
                         this.slthLog(`pushing ${playerConfig.civilizationTypeName} to usedCivs`)
                         this.usedCivs.push(playerConfig.civilizationTypeName)
@@ -67,7 +76,7 @@ export class PlayerRandomiser {
                         possibleCivUnlocked = this.getLockedCivData(playerId)
                     }
                     if (playerId !== GameContext.localPlayerID) {
-                        const { newLeader, newCivType } = this.resolveRandoms(playerConfig, playerId, personaLeaders, possibleCivUnlocked)
+                        const { newLeader, newCivType } = this.resolveRandoms(playerConfig, playerId, personaLeaders, possibleCivUnlocked, isMementoParamChanged)
                         this.slthLog(`pushing ${newCivType} to usedCivs`)
                         this.usedCivs.push(newCivType)
                         this.ExclusiveLeaders = this.ExclusiveLeaders.filter(item => item !== newLeader)
@@ -79,8 +88,6 @@ export class PlayerRandomiser {
                         this.ExclusiveLeaders = this.ExclusiveLeaders.filter(item => item !== newLeader)
                     }
                 }
-                // this.slthLog(`new used civs`)
-                // this.slthLog(JSON.stringify(this.usedCivs, null, 2))
             }
             // then re-iterate to find any random assigned that were manually random assigned
             for (const playerId of this.setToRandoms) {
@@ -98,6 +105,7 @@ export class PlayerRandomiser {
         }
         else {
             // reset mementos, civs
+            this.slthLog('trying to remove mementos!')
             for (let playerId = 0; playerId < Configuration.getMap().maxMajorPlayers; ++playerId) {
                 const playerConfig = Configuration.getPlayer(playerId);
                 if (playerConfig.slotStatus !== SlotStatus.SS_CLOSED ) {
@@ -223,14 +231,14 @@ export class PlayerRandomiser {
         return 'RANDOM'
     }
 
-    resolveRandoms(playerConfig, playerId, personaLeaders, possibleCivUnlocked){
+    resolveRandoms(playerConfig, playerId, personaLeaders, possibleCivUnlocked, isMementoParamChanged){
         let newLeader = 'RANDOM'
         let newCivType = 'RANDOM'
         this.slthLog('personaLeaders')
         this.slthLog(JSON.stringify(personaLeaders, null, 2))
         this.slthLog(JSON.stringify(this.usedLeaders, null, 2))
         this.slthLog(playerConfig.leaderTypeName)
-        if (this.doLeaders && playerConfig.leaderTypeName === 'RANDOM') {
+        if (this.doLeaders && (playerConfig.leaderTypeName === 'RANDOM' || isMementoParamChanged)) {
             newLeader = this.resolveLeader(playerId, personaLeaders)
         }
         else {
@@ -239,7 +247,7 @@ export class PlayerRandomiser {
             newCivType = playerConfig.civilizationTypeName
             this.currentCivs[newCivType] =  new Map([["blockerLeader", newLeader], ["blockerPlayerId", playerId]])
         }
-        if (playerConfig.civilizationTypeName === 'RANDOM') {
+        if (playerConfig.civilizationTypeName === 'RANDOM' || isMementoParamChanged) {
             if (this.isAgeTransition){
                 const newBiasedCiv = this.leaderCivBiasSelection(playerId, newLeader, possibleCivUnlocked, 0)
                 newCivType = this.resolveCiv(playerId, newLeader, newBiasedCiv)
